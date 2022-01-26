@@ -94,6 +94,8 @@ def verifyOtp(request):
         user = request.user
         profile = AppUser.objects.get(user=user)
         data = request.data
+       
+
         if (int(profile.otp)==int(data['otp'])):
             print("Otp matched!")
             profile.isverified = True
