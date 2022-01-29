@@ -2,14 +2,14 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import UserSerializer, ProfileSerializer
+from .serializers import UserSerializer, ProfileSerializer, EventSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .utils import Util
 import random
 from django.contrib.sites.shortcuts import get_current_site
-from .models import AppUser
+from .models import AppUser, event
 from rest_framework import status
 from django.contrib.auth.models import User
 
@@ -95,7 +95,7 @@ def verifyOtp(request):
         profile = AppUser.objects.get(user=user)
         data = request.data
        
-
+        print(data['otp'])
         if (int(profile.otp)==int(data['otp'])):
             print("Otp matched!")
             profile.isverified = True
@@ -119,6 +119,21 @@ def userLogout(request):
         return Response({'status': 1, 'message':"User Logged out"})
     else:
         return Response({'status': 0, 'message':"Please Log in first"})
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getEvent(request):
+    user = request.user
+    profile = AppUser.objects.get(user=user)
+    eventlist = event.objects.all()
+    print(eventlist)
+    if profile.isverified:
+        serialized_events = EventSerializer(eventlist, many = True)
+        return Response({'status': 1,'post':serialized_events.data})
+    else:
+        return Response({'status': 0, 'message':"User not verified. Please Verify account"})
+
         
 def home(request):
     return JsonResponse('Hello',safe=False)

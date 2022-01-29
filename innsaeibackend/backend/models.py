@@ -26,3 +26,24 @@ def create_profile_signal(sender, instance, created, **kwargs):
         profile = AppUser.objects.create(user=instance)
         profile.save()
 
+TYPE = (
+    ("Software", "Software"),
+    ("Hardware", "Hardware"),
+    ("Other", "Other"),
+)
+
+class event(models.Model):
+    name = models.CharField(max_length=100)
+    poster = models.ImageField(upload_to='events/eventPosters')
+    description = models.TextField()
+    type = models.CharField(choices=TYPE, max_length=100)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    gallary_pic1 = models.ImageField(upload_to='events/eventsGallary')
+    gallary_pic2 = models.ImageField(upload_to='events/eventsGallary')
+    gallary_pic3 = models.ImageField(upload_to='events/eventsGallary')
+    gallary_pic4 = models.ImageField(upload_to='events/eventsGallary')
+
+
+    def __str__(self):
+        return self.name

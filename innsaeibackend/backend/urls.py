@@ -9,7 +9,8 @@ urlpatterns = [
     path('users/login/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('users/profile/',views.getUserProfile),
     path('users/updateprofile/',views.updateUserProfile),
-    path('users/verifyotp', views.verifyOtp),
-    path('users/logout', views.userLogout),
+    path('users/verifyotp/', views.verifyOtp),
+    path('users/logout/', views.userLogout),
+    path('users/gallery/',views.getEvent),
 
 ]

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db.models import fields
 from rest_framework import serializers
-from .models import AppUser
+from .models import AppUser, event
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,3 +19,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         user = obj.user
         serializer = UserSerializer(user, many=False)
         return serializer.data
+
+
+class EventSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = event
+        fields = '__all__'
