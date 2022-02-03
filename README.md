@@ -5,5 +5,6 @@ Below steps are wrt windows -
 3. activate virtual env
 4. cd to innsaeibackend 
 5. run pip install -r requirements.txt in cmd
-6. run python manage.py runserver
-7. Your project is running!
+6. run pip install django-cors-headers
+7. run python manage.py runserver
+8. Your project is running!
