@@ -182,6 +182,6 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'alumnitesthub@gmail.com'
-EMAIL_HOST_PASSWORD = 'isahub321'
+EMAIL_HOST_PASSWORD = 'kwkjemtzqwwdrdgr'
 
 CORS_ALLOW_ALL_ORIGINS = True
