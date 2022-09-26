@@ -44,6 +44,13 @@ class event(models.Model):
     gallary_pic3 = models.ImageField(upload_to='events/eventsGallary')
     gallary_pic4 = models.ImageField(upload_to='events/eventsGallary')
 
+class contactus(models.Model):
+    name = models.CharField(max_length=100)
+    email=  models.EmailField(blank=True, max_length=100)
+    phoneNumber = models.CharField(max_length=15)
+    message= models.CharField(blank=True, max_length=500)
+    
+
 
     def __str__(self):
         return self.name
