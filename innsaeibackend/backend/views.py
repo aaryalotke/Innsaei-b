@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import UserSerializer, ProfileSerializer, EventSerializer
+from .serializers import ContactSerailizer, UserSerializer, ProfileSerializer, EventSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -12,6 +12,10 @@ from django.contrib.sites.shortcuts import get_current_site
 from .models import AppUser, event
 from rest_framework import status
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from email import message
+
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -133,6 +137,30 @@ def getEvent(request):
         return Response({'status': 1,'post':serialized_events.data})
     else:
         return Response({'status': 0, 'message':"User not verified. Please Verify account"})
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def api_create_contact_view(request):
+    if request.method == "POST":
+        serializer = ContactSerailizer(data=request.data)
+        if serializer.is_valid():
+            name = request.data['name']
+            email = request.data['email']
+            message = request.data['message']
+            phone = request.data['phoneNumber']
+
+            # send mail
+            send_mail(
+                "mail from" + " " + name,
+                message + " "+ "\n \nMail From: "+ email + " "+"\nPhone Number: "+ phone ,
+                email,
+                ['alumnihub.isavesit@gmail.com'],  #mail to 
+                fail_silently=False,
+            )
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         
 def home(request):
