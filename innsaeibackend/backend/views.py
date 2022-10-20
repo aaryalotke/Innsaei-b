@@ -2,14 +2,14 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import ContactSerailizer, UserSerializer, ProfileSerializer, EventSerializer
+from .serializers import ContactSerailizer, EditorialSerializer, UserSerializer, ProfileSerializer, EventSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .utils import Util
 import random
 from django.contrib.sites.shortcuts import get_current_site
-from .models import AppUser, event
+from .models import AppUser, editorials, event
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -159,10 +159,25 @@ def api_create_contact_view(request):
                 fail_silently=False,
             )
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=1)
+        return Response(serializer.errors, status=0)
 
         
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def editorialsList(request):
+    try:
+        user = request.user
+        profile = AppUser.objects.get(user=user)
+        editorial = editorials.objects.all()
+        print(editorial)
+        serialized_links = EditorialSerializer(editorial, many = True)
+        return Response({'status': 1, 'link':serialized_links.data})
+    except:
+        detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
+        return Response(detail, status=status.HTTP_400_BAD_REQUEST)
+
+
 def home(request):
     return JsonResponse('Hello',safe=False)
 

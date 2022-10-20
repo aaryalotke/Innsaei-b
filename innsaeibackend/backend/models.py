@@ -49,8 +49,13 @@ class contactus(models.Model):
     email=  models.EmailField(blank=True, max_length=100)
     phoneNumber = models.CharField(max_length=15)
     message= models.CharField(blank=True, max_length=500)
+
+class editorials(models.Model):
+    editorial_name=models.CharField(max_length=100)
+    editorial_link=models.URLField()
     
-
-
     def __str__(self):
-        return self.name
+        return self.editorial_name
+
+def __str__(self):
+    return self.name
