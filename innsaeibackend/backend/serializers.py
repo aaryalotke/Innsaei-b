@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models import fields
 from rest_framework import serializers
 from email import message
-from .models import AppUser, contactus, developers, editorials, event
+from .models import AppUser, contactus, councilMembers, developers, editorials, event
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -55,5 +55,11 @@ class DeveloperSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = developers
+        fields = '__all__'
+
+class Councilserializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = councilMembers
         fields = '__all__'
 

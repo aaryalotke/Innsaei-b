@@ -77,10 +77,22 @@ class developers(models.Model):
     email=  models.EmailField(blank=True)
 
     def __str__(self):
-        return "{}, {}".format(self.first_name, self.last_name)
+        return "{} {}".format(self.first_name, self.last_name)
 #developer end
 
+class councilMembers(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    photo = models.ImageField(null=True, blank=True, upload_to='council')
+    council = models.CharField(choices=COUNCIL, max_length=100)
+    post = models.CharField(max_length=100)
+    order_number = models.IntegerField(default=0, blank=True)
+    insta_id = models.URLField(blank=True)
+    linked_in =  models.URLField(blank=True)
+    email=  models.URLField(blank=True)
 
+    def __str__(self):
+        return "{} {}".format(self.first_name, self.last_name)
 
 
 def __str__(self):

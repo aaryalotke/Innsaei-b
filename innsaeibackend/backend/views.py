@@ -2,14 +2,14 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import ContactSerailizer, DeveloperSerializer, EditorialSerializer, UserSerializer, ProfileSerializer, EventSerializer
+from .serializers import ContactSerailizer, Councilserializer, DeveloperSerializer, EditorialSerializer, UserSerializer, ProfileSerializer, EventSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .utils import Util
 import random
 from django.contrib.sites.shortcuts import get_current_site
-from .models import AppUser, developers, editorials, event
+from .models import AppUser, councilMembers, developers, editorials, event
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -190,6 +190,21 @@ def developersList(request):
         developer = developers.objects.all()
         print(developer)
         serialized_links = DeveloperSerializer(developer, many = True)
+        return Response({'status': 1, 'link':serialized_links.data})
+    except:
+        detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
+        return Response(detail, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def councilsList(request):
+    try:
+        user = request.user
+        profile = AppUser.objects.get(user=user)
+        council = councilMembers.objects.all()
+        print(council)
+        serialized_links = Councilserializer(council, many = True)
         return Response({'status': 1, 'link':serialized_links.data})
     except:
         detail = { 'status': 0, 'message' : 'Oof something went wrong!' }

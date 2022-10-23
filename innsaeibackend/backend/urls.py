@@ -15,6 +15,7 @@ urlpatterns = [
     path('users/ContactUs/',views.api_create_contact_view), #3
     path('users/editorial/',views.editorialsList), #4
     path('users/Developers/',views.developersList), #5
+    path('users/Council/',views.councilsList), #6
 
 
 ]
