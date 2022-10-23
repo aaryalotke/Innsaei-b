@@ -2,16 +2,20 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import UserSerializer, ProfileSerializer
+from .serializers import ContactSerailizer, EditorialSerializer, UserSerializer, ProfileSerializer, EventSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .utils import Util
 import random
 from django.contrib.sites.shortcuts import get_current_site
-from .models import AppUser
+from .models import AppUser, editorials, event
 from rest_framework import status
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from email import message
+
+
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -94,6 +98,8 @@ def verifyOtp(request):
         user = request.user
         profile = AppUser.objects.get(user=user)
         data = request.data
+       
+        print(data['otp'])
         if (int(profile.otp)==int(data['otp'])):
             print("Otp matched!")
             profile.isverified = True
@@ -117,7 +123,61 @@ def userLogout(request):
         return Response({'status': 1, 'message':"User Logged out"})
     else:
         return Response({'status': 0, 'message':"Please Log in first"})
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getEvent(request):
+    user = request.user
+    profile = AppUser.objects.get(user=user)
+    eventlist = event.objects.all()
+    print(eventlist)
+    if profile.isverified:
+        serialized_events = EventSerializer(eventlist, many = True)
+        return Response({'status': 1,'post':serialized_events.data})
+    else:
+        return Response({'status': 0, 'message':"User not verified. Please Verify account"})
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def api_create_contact_view(request):
+    if request.method == "POST":
+        serializer = ContactSerailizer(data=request.data)
+        if serializer.is_valid():
+            name = request.data['name']
+            email = request.data['email']
+            message = request.data['message']
+            phone = request.data['phoneNumber']
+
+            # send mail
+            send_mail(
+                "mail from" + " " + name,
+                message + " "+ "\n \nMail From: "+ email + " "+"\nPhone Number: "+ phone ,
+                email,
+                ['alumnihub.isavesit@gmail.com'],  #mail to 
+                fail_silently=False,
+            )
+            serializer.save()
+            return Response(serializer.data, status=1)
+        return Response(serializer.errors, status=0)
+
         
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def editorialsList(request):
+    try:
+        user = request.user
+        profile = AppUser.objects.get(user=user)
+        editorial = editorials.objects.all()
+        print(editorial)
+        serialized_links = EditorialSerializer(editorial, many = True)
+        return Response({'status': 1, 'link':serialized_links.data})
+    except:
+        detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
+        return Response(detail, status=status.HTTP_400_BAD_REQUEST)
+
+
 def home(request):
     return JsonResponse('Hello',safe=False)
 

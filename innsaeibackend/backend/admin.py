@@ -4,7 +4,7 @@ from import_export.admin import ExportMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from import_export.admin import ImportExportModelAdmin
-from .models import AppUser
+from .models import AppUser, contactus, editorials, event
 #Register your models here.
 
 
@@ -23,3 +23,6 @@ class UserAdmin(ImportExportModelAdmin):
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.register(AppUser)
+admin.site.register(event)
+admin.site.register(contactus)
+admin.site.register(editorials)

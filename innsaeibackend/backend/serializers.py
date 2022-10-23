@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.db.models import fields
 from rest_framework import serializers
-from .models import AppUser
+from email import message
+from .models import AppUser, contactus, editorials, event
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,3 +20,30 @@ class ProfileSerializer(serializers.ModelSerializer):
         user = obj.user
         serializer = UserSerializer(user, many=False)
         return serializer.data
+
+
+class EventSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = event
+        fields = '__all__'
+
+class ContactSerailizer(serializers.Serializer):
+
+    name = serializers.CharField(min_length=1)
+    email = serializers.CharField(max_length=254,allow_blank=False) 
+    message = serializers.CharField(min_length=1, max_length=500 )
+    phoneNumber= serializers.CharField( max_length=15)
+
+    class Meta:
+        fields = '__all__'
+
+    def create(self, validated_data):
+        return contactus.objects.create(**validated_data)
+
+
+class EditorialSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = editorials
+        fields = '__all__'
