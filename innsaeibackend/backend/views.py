@@ -159,8 +159,10 @@ def api_create_contact_view(request):
                 fail_silently=False,
             )
             serializer.save()
-            return Response(serializer.data, status=1)
-        return Response(serializer.errors, status=0)
+            #return Response(serializer.data, status=1)
+            return Response({'status': 1,'contact_us':serializer.data})
+        #return Response(serializer.errors, status=0) // use commented Response code in above and current line if API not working.
+        return Response({'status': 0, 'message':serializer.errors})
 
         
 @api_view(['GET'])
