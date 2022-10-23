@@ -1,8 +1,10 @@
+from email.mime import image
+from unittest.util import _MAX_LENGTH
 from django.contrib.auth.models import User
 from django.db.models import fields
 from rest_framework import serializers
 from email import message
-from .models import AppUser, contactus, editorials, event
+from .models import AppUser, contactus, developers, editorials, event
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -47,3 +49,11 @@ class EditorialSerializer(serializers.ModelSerializer):
     class Meta:
         model = editorials
         fields = '__all__'
+
+
+class DeveloperSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = developers
+        fields = '__all__'
+

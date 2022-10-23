@@ -1,3 +1,4 @@
+from email.mime import image
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -56,6 +57,31 @@ class editorials(models.Model):
     
     def __str__(self):
         return self.editorial_name
+
+COUNCIL = (
+    ("SE", "SE"),
+    ("TE", "TE"),
+    ("BE", "BE"),
+)
+
+#developer
+class developers(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    image = models.URLField(null=True, blank=True)
+    council = models.CharField(choices=COUNCIL, max_length=100)
+    post = models.CharField(max_length=100)
+    order_number = models.IntegerField(default=0, blank=True)
+    insta_id = models.URLField(blank=True)
+    linked_in =  models.URLField(blank=True)
+    email=  models.EmailField(blank=True)
+
+    def __str__(self):
+        return "{}, {}".format(self.first_name, self.last_name)
+#developer end
+
+
+
 
 def __str__(self):
     return self.name
