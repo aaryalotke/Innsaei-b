@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import ContactSerailizer, Councilserializer, DeveloperSerializer, EditorialSerializer, UserSerializer, ProfileSerializer, EventSerializer
+from .serializers import ContactSerailizer, Councilserializer, DeveloperSerializer, EditorialSerializer, EventSerializer_2, UserSerializer, ProfileSerializer, EventSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -137,6 +137,22 @@ def getEvent(request):
         return Response({'status': 1,'post':serialized_events.data})
     else:
         return Response({'status': 0, 'message':"User not verified. Please Verify account"})
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getEvent_2(request):
+    user = request.user
+    profile = AppUser.objects.get(user=user)
+    eventlist = event.objects.all()
+    print(eventlist)
+    if profile.isverified:
+        serialized_events = EventSerializer_2(eventlist, many = True)
+        return Response({'status': 1,'post':serialized_events.data})
+    else:
+        return Response({'status': 0, 'message':"User not verified. Please Verify account"})
+
 
 
 @api_view(['POST'])

@@ -45,6 +45,19 @@ class event(models.Model):
     gallary_pic3 = models.ImageField(upload_to='events/eventsGallary')
     gallary_pic4 = models.ImageField(upload_to='events/eventsGallary')
 
+
+class gallery_2(models.Model):
+    name = models.CharField(max_length=100)
+    poster_link =  models.URLField(blank=True)
+    description = models.TextField()
+    type = models.CharField(choices=TYPE, max_length=100)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    gallary_pic1_link = models.URLField(blank=True)
+    gallary_pic2_link = models.URLField(blank=True)
+    gallary_pic3_link = models.URLField(blank=True)
+    gallary_pic4_link = models.URLField(blank=True)
+
 class contactus(models.Model):
     name = models.CharField(max_length=100)
     email=  models.EmailField(blank=True, max_length=100)
