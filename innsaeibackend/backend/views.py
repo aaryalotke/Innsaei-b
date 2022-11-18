@@ -9,7 +9,7 @@ from rest_framework.response import Response
 from .utils import Util
 import random
 from django.contrib.sites.shortcuts import get_current_site
-from .models import AppUser, councilMembers, developers, editorials, event
+from .models import AppUser, councilMembers, developers, editorials, event, gallery_2
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -145,7 +145,7 @@ def getEvent(request):
 def getEvent_2(request):
     user = request.user
     profile = AppUser.objects.get(user=user)
-    eventlist = event.objects.all()
+    eventlist = gallery_2.objects.all()
     print(eventlist)
     if profile.isverified:
         serialized_events = EventSerializer_2(eventlist, many = True)
