@@ -48,9 +48,7 @@ class event(models.Model):
 
 class gallery_2(models.Model):
     name = models.CharField(max_length=100)
-    poster1 =  models.URLField(blank=True)
-    poster2 =  models.URLField(blank=True)
-    poster3 =  models.URLField(blank=True)
+    poster_link =  models.URLField(blank=True)
     description = models.TextField()
     type = models.CharField(choices=TYPE, max_length=100)
     start_date = models.DateField()
