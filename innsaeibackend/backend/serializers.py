@@ -4,19 +4,23 @@ from django.contrib.auth.models import User
 from django.db.models import fields
 from rest_framework import serializers
 from email import message
-from .models import AppUser, contactus, councilMembers, developers, editorials, event
+from .models import AppUser, contactus, councilMembers, developers, editorials, event, events2
+
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email']
 
+
+
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = AppUser
-        fields = ['user', 'role', 'description', 'achievements', 'github', 'linkedin', 'profile_image']
+        fields = ['user', 'role', 'github', 'linkedin', 'profile_image','phone_number','isMember']
 
     def get_user(self, obj):
         user = obj.user
@@ -24,10 +28,19 @@ class ProfileSerializer(serializers.ModelSerializer):
         return serializer.data
 
 
+
 class EventSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = event
+        fields = '__all__'
+
+
+
+class EventSerializer_2(serializers.ModelSerializer):
+   
+    class Meta:
+        model = events2
         fields = '__all__'
 
 
@@ -46,6 +59,7 @@ class ContactSerailizer(serializers.Serializer):
         return contactus.objects.create(**validated_data)
 
 
+
 class EditorialSerializer(serializers.ModelSerializer):
     
     class Meta:
@@ -53,11 +67,14 @@ class EditorialSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
 class DeveloperSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = developers
         fields = '__all__'
+
+
 
 class Councilserializer(serializers.ModelSerializer):
     

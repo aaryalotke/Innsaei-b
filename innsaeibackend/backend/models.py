@@ -6,17 +6,18 @@ from django.core.mail import message, send_mail
 from django.contrib.auth.models import User
 import uuid
 from django.conf import settings
+from phonenumber_field.modelfields import PhoneNumberField
 
 class AppUser(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     otp = models.IntegerField(blank=True, null=True)
     role = models.CharField(max_length=100, default='Student')
-    description = models.CharField(max_length=256,default='')
-    achievements = models.CharField(max_length=256,default='')
-    github = models.CharField(max_length=100,default='')
-    linkedin = models.CharField(max_length=100,default='')
+    github = models.URLField(max_length=100,default='')
+    linkedin = models.URLField(max_length=100,default='')
     isverified = models.BooleanField(default=False)
     profile_image = models.ImageField(null=True, blank=True, upload_to="profile_image/")
+    phone_number=PhoneNumberField(null=True,blank=True,unique=True)
+    isMember = models.BooleanField(default=True)
 
     def __str__(self):
         return self.user.email
@@ -64,9 +65,10 @@ COUNCIL = (
     ("SE", "SE"),
     ("TE", "TE"),
     ("BE", "BE"),
+    ("FACULTY ADVISORS ", "FACULTY ADVISORS"),
 )
 
-#developer
+
 class developers(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
@@ -77,21 +79,38 @@ class developers(models.Model):
     insta_id = models.URLField(blank=True)
     linked_in =  models.URLField(blank=True)
     email=  models.EmailField(blank=True)
+    phoneNumber = models.CharField(max_length=15,blank=True)
 
     def __str__(self):
         return "{} {}".format(self.first_name, self.last_name)
-#developer end
+
+
+class events2(models.Model):
+    name = models.CharField(max_length=100)
+    poster1 =  models.URLField(blank=True)
+    poster2 =  models.URLField(blank=True)
+    poster3 =  models.URLField(blank=True)
+    description = models.TextField()
+    type = models.CharField(choices=TYPE, max_length=100)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    gallary_pic1_link = models.URLField(blank=True)
+    gallary_pic2_link = models.URLField(blank=True)
+    gallary_pic3_link = models.URLField(blank=True)
+    gallary_pic4_link = models.URLField(blank=True)
+
 
 class councilMembers(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
-    photo = models.ImageField(null=True, blank=True, upload_to='council')
+    photo = models.URLField(blank=True)
     council = models.CharField(choices=COUNCIL, max_length=100)
     post = models.CharField(max_length=100)
     order_number = models.IntegerField(default=0, blank=True)
     insta_id = models.URLField(blank=True)
     linked_in =  models.URLField(blank=True)
     email=  models.URLField(blank=True)
+    phoneNumber = models.CharField(max_length=15,blank=True)
 
     def __str__(self):
         return "{} {}".format(self.first_name, self.last_name)

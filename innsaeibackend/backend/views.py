@@ -2,14 +2,14 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import ContactSerailizer, Councilserializer, DeveloperSerializer, EditorialSerializer,  UserSerializer, ProfileSerializer, EventSerializer
+from .serializers import ContactSerailizer, Councilserializer, DeveloperSerializer, EditorialSerializer, EventSerializer_2,  UserSerializer, ProfileSerializer, EventSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .utils import Util
 import random
 from django.contrib.sites.shortcuts import get_current_site
-from .models import AppUser, councilMembers, developers, editorials, event
+from .models import AppUser, councilMembers, developers, editorials, event, events2
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -125,6 +125,23 @@ def userLogout(request):
         return Response({'status': 0, 'message':"Please Log in first"})
 
 
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def get_phone(request):
+    try:
+        user = request.user
+        profile = AppUser.objects.get(user=user)
+        data = request.data
+        print(data['phone_number'])
+        profile.phone_number = (data['phone_number'])
+        
+        profile.save()
+        return Response({'status': 1,'post': "mobile number saved!"})
+    except:
+        detail = { 'status':0, 'post': "phone number not saved"}
+        return Response(detail, status=status.HTTP_400_BAD_REQUEST)
+
+
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def getEvent(request):
@@ -212,6 +229,27 @@ def councilsList(request):
     except:
         detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
         return Response(detail, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getEvent_2(request):
+    user = request.user
+    profile = AppUser.objects.get(user=user)
+    eventlist = events2.objects.all()
+    print(eventlist)
+    if profile.isverified:
+        serialized_events = EventSerializer_2(eventlist, many = True)
+        return Response({'status': 1,'post':serialized_events.data})
+    else:
+        return Response({'status': 0, 'message':"User not verified. Please Verify account"})
+
+
+
+
+
+
 
 
 def home(request):

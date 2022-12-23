@@ -16,7 +16,7 @@ urlpatterns = [
     path('users/editorial/',views.editorialsList), #4
     path('users/Developers/',views.developersList), #5
     path('users/Council/',views.councilsList), #6
-    #path('users/Gallery_2/',views.getEvent_2), #6
-
+    path('users/Gallery_2/',views.getEvent_2), #7
+    path('users/phone/',views.get_phone), #8
 
 ]
