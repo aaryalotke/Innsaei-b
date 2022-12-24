@@ -53,6 +53,8 @@ class contactus(models.Model):
     email=  models.EmailField(blank=True, max_length=100)
     phoneNumber = models.CharField(max_length=15)
     message= models.CharField(blank=True, max_length=500)
+    def __str__(self):
+        return "{} {}".format(self.email, self.phoneNumber)
 
 class editorials(models.Model):
     editorial_name=models.CharField(max_length=100)
@@ -98,6 +100,9 @@ class events2(models.Model):
     gallary_pic2_link = models.URLField(blank=True)
     gallary_pic3_link = models.URLField(blank=True)
     gallary_pic4_link = models.URLField(blank=True)
+    
+    def __str__(self):
+        return "{} {} {}".format(self.name, self.start_date, self.type)
 
 
 class councilMembers(models.Model):
