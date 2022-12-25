@@ -2,14 +2,14 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import ContactSerailizer, Councilserializer, DeveloperSerializer, EditorialSerializer, EventSerializer_2,  UserSerializer, ProfileSerializer, EventSerializer
+from .serializers import ContactSerailizer, Councilserializer, DeveloperSerializer, EditorialSerializer, EventSerializer_2,  UserSerializer, ProfileSerializer
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .utils import Util
 import random
 from django.contrib.sites.shortcuts import get_current_site
-from .models import AppUser, councilMembers, developers, editorials, event, events2
+from .models import AppUser, councilMembers, developers, editorials,  events2
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -140,21 +140,6 @@ def get_phone(request):
     except:
         detail = { 'status':0, 'post': "phone number not saved"}
         return Response(detail, status=status.HTTP_400_BAD_REQUEST)
-
-
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getEvent(request):
-    user = request.user
-    profile = AppUser.objects.get(user=user)
-    eventlist = event.objects.all()
-    print(eventlist)
-    if profile.isverified:
-        serialized_events = EventSerializer(eventlist, many = True)
-        return Response({'status': 1,'post':serialized_events.data})
-    else:
-        return Response({'status': 0, 'message':"User not verified. Please Verify account"})
-
 
 
 
