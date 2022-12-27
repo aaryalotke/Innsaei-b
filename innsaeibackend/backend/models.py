@@ -66,14 +66,14 @@ class developers(models.Model):
     image = models.URLField(null=True, blank=True)
     council = models.CharField(choices=COUNCIL, max_length=100)
     post = models.CharField(max_length=100)
-    order_number = models.IntegerField(default=0, blank=True)
+    #order_number = models.IntegerField(default=0, blank=True)
     insta_id = models.URLField(blank=True)
     linked_in =  models.URLField(blank=True)
-    email=  models.EmailField(blank=True)
+    email=  models.CharField(blank=False,max_length=100)
     phoneNumber = models.CharField(max_length=15,blank=True)
 
     def __str__(self):
-        return "{} {}".format(self.name, self.email)
+        return "{} {}".format(self.name, self.phoneNumber)
 
 
 class events2(models.Model):
@@ -102,7 +102,7 @@ class councilMembers(models.Model):
     order_number = models.IntegerField(default=0, blank=True)
     insta_id = models.URLField(blank=True)
     linked_in =  models.URLField(blank=True)
-    email=  models.EmailField(blank=True)
+    email=  models.CharField(blank=False,max_length=100)
     phoneNumber = models.CharField(max_length=15,blank=True)
 
     def __str__(self):
