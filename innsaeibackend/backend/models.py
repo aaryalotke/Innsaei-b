@@ -66,7 +66,7 @@ class developers(models.Model):
     image = models.URLField(null=True, blank=True)
     council = models.CharField(choices=COUNCIL, max_length=100)
     post = models.CharField(max_length=100)
-    #order_number = models.IntegerField(default=0, blank=True)
+    order_number = models.IntegerField(default=0, blank=True)
     insta_id = models.URLField(blank=True)
     linked_in =  models.URLField(blank=True)
     email=  models.CharField(blank=False,max_length=100)
