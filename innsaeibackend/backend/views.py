@@ -2,14 +2,14 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import ContactSerailizer, Councilserializer, DeveloperSerializer, EditorialSerializer, EventSerializer_2,  UserSerializer, ProfileSerializer
+from .serializers import ContactSerailizer, Councilserializer, DeveloperSerializer, EditorialSerializer, EventSerializer_2,  UserSerializer, ProfileSerializer, UserSerializerNONMEMBER
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .utils import Util
 import random
 from django.contrib.sites.shortcuts import get_current_site
-from .models import AppUser, councilMembers, developers, editorials,  events2
+from .models import AppUser, councilMembers, developers, editorials,  events2, AppUserNONMEMBER
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -232,6 +232,90 @@ def getEvent_2(request):
 
 
 
+
+
+class MyTokenObtainPairSerializerNONMEMBERS(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        data =super().validate(attrs)
+
+        data['username'] = self.user.username 
+        data['email'] = self.user.email
+
+        # print(data)
+        token = data['refresh']
+        # current_site = get_current_site(request)
+
+        otp_generated = random.randint(1000,9999)
+        profileNONMEMBER = AppUserNONMEMBER.objects.get(user=self.user)
+        profileNONMEMBER.otp=otp_generated
+        profileNONMEMBER.isMember=True
+        profileNONMEMBER.save()
+
+        #absurl = 'http://127.0.0.1:8000/?token='+str(token)
+        email_body = 'Hi '+self.user.username+' Your otp to login is ' + str(otp_generated)
+        credentials={'to_email': self.user.email,'email_body': email_body, 'email_subject': 'Email verification' }
+        Util.send_email(credentials)
+
+        return data
+
+class MyTokenObtainPairViewNONMEMBERS(TokenObtainPairView):
+    serializer_class = MyTokenObtainPairSerializerNONMEMBERS
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def verifyOtpNONMEMBERS(request):
+    try:
+        user = request.user
+        profileNONMEMBER = AppUserNONMEMBER.objects.get(user=user)
+        data = request.data
+       
+        print(data['otp'])
+        if (int(profileNONMEMBER.otp)==int(data['otp'])):
+            print("Otp matched!")
+            profileNONMEMBER.isverified = True
+            profileNONMEMBER.save()
+            return Response({'status': 1, 'message':"User verified successfully"})
+        else:
+            return Response({'status': 0, 'message':"OTP didnt match. please try again"})
+    except:
+        detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
+        return Response(detail, status=status.HTTP_400_BAD_REQUEST)
+
+
+from rest_framework.views import APIView 
+class RegisterUserNONMEMBERS(APIView):
+    '''
+    Register new user
+    '''
+    serializer_class = UserSerializerNONMEMBER
+
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_202_ACCEPTED)
+
+
+
+#here2
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def get_phoneNONMEMBERS(request):
+    try:
+        user = request.user
+        profileNONMEMBER = AppUserNONMEMBER.objects.get(user=user)
+        data = request.data
+        print(data['phone_number'])
+        profileNONMEMBER.phone_number = (data['phone_number'])
+        
+        profileNONMEMBER.save()
+        return Response({'status': 1,'post': "mobile number saved!"})
+    except:
+        detail = { 'status':0, 'post': "phone number not saved"}
+        return Response(detail, status=status.HTTP_400_BAD_REQUEST)
 
 
 

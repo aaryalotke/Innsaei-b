@@ -16,23 +16,48 @@ class AppUser(models.Model):
     linkedin = models.URLField(max_length=100,default='')
     isverified = models.BooleanField(default=False)
     profile_image = models.ImageField(null=True, blank=True, upload_to="profile_image/")
-    phone_number=PhoneNumberField(null=True,blank=True,unique=True)
+    phone_number=models.CharField(null=True,max_length=13,blank=True,unique=True)
     isMember = models.BooleanField(default=True)
 
     def __str__(self):
         return self.user.email
 
-@receiver(post_save, sender=User)
-def create_profile_signal(sender, instance, created, **kwargs):
-    if created:     
-        profile = AppUser.objects.create(user=instance)
-        profile.save()
+#@receiver(post_save, sender=User)
+#def create_profile_signal(sender, instance, created, **kwargs):
+#    if created:     
+#        profile = AppUser.objects.create(user=instance, isMember=True)
+#        profile.save()
 
 TYPE = (
     ("Software", "Software"),
     ("Hardware", "Hardware"),
     ("Other", "Other"),
 )
+
+
+
+class AppUserNONMEMBER(models.Model):
+    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    username = models.CharField(max_length=100, default='')
+    email = models.EmailField(max_length=100,default='')
+    otp = models.IntegerField(blank=True, null=True)
+    role = models.CharField(max_length=100, default='Student')
+    description = models.CharField(max_length=256,default='')
+    achievements = models.CharField(max_length=256,default='')
+    github = models.CharField(max_length=100,default='')
+    linkedin = models.CharField(max_length=100,default='')
+    isverified = models.BooleanField(default=False)
+    phone_number=models.CharField(null=True,max_length=13,blank=True,unique=True)
+    isMember = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.email
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        profileNONMEMBER = AppUserNONMEMBER.objects.create(user=instance, isMember=False)
+        profileNONMEMBER.save()
 
 
 
