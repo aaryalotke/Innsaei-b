@@ -134,5 +134,17 @@ class councilMembers(models.Model):
         return "{} {}".format(self.name, self.council)
 
 
+
+class Remainder(models.Model):
+
+    description = models.CharField(max_length=150, blank=True)
+    duration = models.DateField()
+    is_pinned = models.BooleanField(default=False)
+    color = models.CharField(max_length=100)
+    date = models.DateTimeField(auto_now_add=True)
+
+
+
+
 def __str__(self):
     return self.name

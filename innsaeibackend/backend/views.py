@@ -2,14 +2,14 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import ContactSerailizer, Councilserializer, DeveloperSerializer, EditorialSerializer, EventSerializer_2,  UserSerializer, ProfileSerializer, UserSerializerNONMEMBER
+from .serializers import ContactSerailizer, Councilserializer, DeveloperSerializer, EditorialSerializer, EventSerializer_2, RemainderSerializer,  UserSerializer, ProfileSerializer, UserSerializerNONMEMBER
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .utils import Util
 import random
 from django.contrib.sites.shortcuts import get_current_site
-from .models import AppUser, councilMembers, developers, editorials,  events2, AppUserNONMEMBER
+from .models import AppUser, Remainder, councilMembers, developers, editorials,  events2, AppUserNONMEMBER
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -315,6 +315,17 @@ def get_phoneNONMEMBERS(request):
         return Response({'status': 1,'post': "mobile number saved!"})
     except:
         detail = { 'status':0, 'post': "phone number not saved"}
+        return Response(detail, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['GET',])
+def getCalender(request):
+    try:
+        task = Remainder.objects.all()
+        serializer = RemainderSerializer(task,many=True)
+        return Response({'status':1,'CalenderData':serializer.data})
+    except:
+        detail = { 'status':0, 'post': "Calender Event cannot be displayed"}
         return Response(detail, status=status.HTTP_400_BAD_REQUEST)
 
 

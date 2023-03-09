@@ -24,6 +24,7 @@ urlpatterns = [
     path('users/loginNONMEMBERS/', views.MyTokenObtainPairViewNONMEMBERS.as_view(), name='token_obtain_pair'),#14
     path('users/verifyotpNONMEMBERS/', views.verifyOtpNONMEMBERS),#15
     path('users/phoneNONMEMBERS/',views.get_phoneNONMEMBERS), #16
+    path('users/calender/',views.getCalender),#17
 
  
 ]
