@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models import fields
 from rest_framework import serializers
 from email import message
-from .models import AppUser, Remainder, contactus, councilMembers, developers, editorials,  events2
+from .models import AppUser, Remainder, UpcomingWorkshopmodels, contactus, councilMembers, developers, editorials,  events2
 
 
 
@@ -111,6 +111,14 @@ class UserSerializerNONMEMBER(serializers.ModelSerializer):
             raise serializers.ValidationError(errors)
 
         return super(UserSerializerNONMEMBER, self).validate(data)
+
+
+class UpcomingWorkshopmodelsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UpcomingWorkshopmodels
+        fields = '__all__'
+
+
 
 
 
