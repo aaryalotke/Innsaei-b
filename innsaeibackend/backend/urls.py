@@ -24,6 +24,7 @@ urlpatterns = [
     path('users/phoneNONMEMBERS/',views.get_phoneNONMEMBERS), #16
     path('users/calender/',views.getCalender), #17
     path('users/UpcomingWorkshop/',views.UpcomingEventsList), #17
-
+    path('users/Product/', views.ComponentList.as_view()), #18
+    path('users/Product/<int:pk>/', views.ComponentList.as_view()), #19
 
 ]

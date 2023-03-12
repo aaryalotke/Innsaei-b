@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models import fields
 from rest_framework import serializers
 from email import message
-from .models import AppUser, Remainder, UpcomingWorkshopmodels, contactus, councilMembers, developers, editorials,  events2
+from .models import AppUser, Component, Remainder, UpcomingWorkshopmodels, contactus, councilMembers, developers, editorials,  events2
 
 
 
@@ -119,7 +119,10 @@ class UpcomingWorkshopmodelsSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
+class ComponentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Component
+        fields = '__all__'
 
 
 class RemainderSerializer(serializers.ModelSerializer):

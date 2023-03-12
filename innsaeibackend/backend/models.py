@@ -87,7 +87,6 @@ COUNCIL = (
 
 class developers(models.Model):
     name = models.CharField(max_length=100)
-    
     image = models.URLField(null=True, blank=True)
     council = models.CharField(choices=COUNCIL, max_length=100)
     post = models.CharField(max_length=100)
@@ -153,6 +152,20 @@ class UpcomingWorkshopmodels(models.Model):
     
     def __str__(self):
         return self.EventName
+    
+
+
+
+class Component(models.Model):
+    name = models.CharField(max_length=254, null=False, blank=False)
+    image = models.URLField(null=False, default="https://drive.google.com/uc?export=download&id=1BS738bM50KPliEbb7o30rDfDuvxCS_rL")
+    Small_Specs = models.CharField(max_length=254,null=False)
+    Info = models.TextField(null=False)
+    Is_available = models.BooleanField(default=True)
+    
+    def __str__(self):
+        return self.name
+
 
 def __str__(self):
     return self.name
