@@ -145,11 +145,11 @@ class Remainder(models.Model):
 
 
 class UpcomingWorkshopmodels(models.Model):
-    EventName = models.CharField(max_length=100)
+    EventName = models.CharField(max_length=500, blank=True)
     PosterImage = models.URLField(null=True, blank=True)
     FormLink = models.URLField(blank=True)
     Description = models.TextField()
-    start_date = models.DateField()
+    DurationDate = models.CharField(max_length=100, blank=True)
     
     def __str__(self):
         return self.EventName
