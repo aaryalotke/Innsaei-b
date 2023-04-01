@@ -2,14 +2,14 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import ComponentSerializer, ContactSerailizer, Councilserializer, DeveloperSerializer, EditorialSerializer, EventSerializer_2, RemainderSerializer, UpcomingWorkshopmodelsSerializer,  UserSerializer, ProfileSerializer, UserSerializerNONMEMBER
+from .serializers import ComponentSerializer, ContactSerailizer, Councilserializer, DeveloperSerializer, EditorialSerializer, EventSerializer_2, InitiativeSerializer, RemainderSerializer, UpcomingWorkshopmodelsSerializer,  UserSerializer, ProfileSerializer, UserSerializerNONMEMBER
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .utils import Util
 import random
 from django.contrib.sites.shortcuts import get_current_site
-from .models import AppUser, Component, Remainder, UpcomingWorkshopmodels, councilMembers, developers, editorials,  events2, AppUserNONMEMBER
+from .models import AppUser, Component, Initiatives, Remainder, UpcomingWorkshopmodels, councilMembers, developers, editorials,  events2, AppUserNONMEMBER
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -339,6 +339,21 @@ def UpcomingEventsList(request):
         print(upcomingws)
         serialized_links_upcomingws = UpcomingWorkshopmodelsSerializer(upcomingws, many = True)
         return Response({'status': 1, 'link':serialized_links_upcomingws.data})
+    except:
+        detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
+        return Response(detail, status=status.HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def InitiativesList(request):
+    try:
+        user = request.user
+        profile = AppUser.objects.get(user=user)
+        initiative = Initiatives.objects.all()
+        print(initiative)
+        serialized_links_intitiatives = InitiativeSerializer(initiative, many = True)
+        return Response({'status': 1, 'link':serialized_links_intitiatives.data})
     except:
         detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
         return Response(detail, status=status.HTTP_400_BAD_REQUEST)

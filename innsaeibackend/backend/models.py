@@ -155,6 +155,16 @@ class UpcomingWorkshopmodels(models.Model):
     
 
 
+class Initiatives(models.Model):
+    Name = models.CharField(max_length=500, blank=True)
+    Image = models.URLField(null=True, blank=True)
+    InitiativesLink = models.URLField(blank=True)
+    Description = models.TextField()
+    
+    def __str__(self):
+        return self.Name
+    
+
 
 class Component(models.Model):
     name = models.CharField(max_length=254, null=False, blank=False)
