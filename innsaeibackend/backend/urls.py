@@ -30,5 +30,4 @@ urlpatterns = [
     path('users/DevelopersURL/',views.DevelopersURLmethod), #21
     path('users/certificateList/',views.certificateList), #22
 
-
 ]
