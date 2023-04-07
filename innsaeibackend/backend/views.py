@@ -2,14 +2,14 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import ComponentSerializer, ContactSerailizer, Councilserializer, DeveloperSerializer, EditorialSerializer, EventSerializer_2, InitiativeSerializer, RemainderSerializer, UpcomingWorkshopmodelsSerializer,  UserSerializer, ProfileSerializer, UserSerializerNONMEMBER
+from .serializers import ComponentSerializer, ContactSerailizer, Councilserializer, Councilserializerurl, DeveloperSerializer, EditorialSerializer, EventSerializer_2, InitiativeSerializer, RemainderSerializer, UpcomingWorkshopmodelsSerializer,  UserSerializer, ProfileSerializer, UserSerializerNONMEMBER
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .utils import Util
 import random
 from django.contrib.sites.shortcuts import get_current_site
-from .models import AppUser, Component, Initiatives, Remainder, UpcomingWorkshopmodels, councilMembers, developers, editorials,  events2, AppUserNONMEMBER
+from .models import AppUser, Component, DevelopersURL, Initiatives, Remainder, UpcomingWorkshopmodels, councilMembers, developers, editorials,  events2, AppUserNONMEMBER
 from rest_framework import status
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
@@ -387,6 +387,21 @@ class ComponentList(APIView):
         else:  
             return Response({'status':0,'ComponentList':"You are not an ISA MEMBER"})
 
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def DevelopersURLmethod(request):
+    try:
+        user = request.user
+        profile = AppUser.objects.get(user=user)
+        Developers1 = DevelopersURL.objects.all()
+        print(Developers1)
+        serialized_links1 = Councilserializerurl(Developers1, many = True, context={'request': request})
+        return Response({'status': 1, 'link':serialized_links1.data})
+    except:
+        detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
+        return Response(detail, status=status.HTTP_400_BAD_REQUEST)
 
 def home(request):
     return JsonResponse('Hello',safe=False)

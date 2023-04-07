@@ -177,5 +177,23 @@ class Component(models.Model):
         return self.name
 
 
+
+class DevelopersURL(models.Model):
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    photo = models.ImageField(null=True, blank=True, upload_to='council')
+    post = models.CharField(max_length=100)
+    order_number = models.IntegerField(default=0, blank=True)
+    insta_id = models.URLField(blank=True)
+    linked_in =  models.URLField(blank=True)
+    email=  models.URLField(blank=True)
+
+    def __str__(self):
+        return self.first_name
+
+
+
+
+
 def __str__(self):
     return self.name
