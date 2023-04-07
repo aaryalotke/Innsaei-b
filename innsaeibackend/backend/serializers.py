@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models import fields
 from rest_framework import serializers
 from email import message
-from .models import AppUser, Component, DevelopersURL, Initiatives, Remainder, UpcomingWorkshopmodels, contactus, councilMembers, developers, editorials,  events2
+from .models import AppUser, Component, DevelopersURL, Initiatives, Remainder, UpcomingWorkshopmodels, certificates, contactus, councilMembers, developers, editorials,  events2
 
 
 
@@ -148,6 +148,12 @@ class RemainderSerializer(serializers.ModelSerializer):
 
 
 
+
+class CertificateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = certificates
+        fields = '__all__'
+    
 
 class Councilserializerurl(serializers.ModelSerializer):
     

@@ -193,6 +193,24 @@ class DevelopersURL(models.Model):
         return self.first_name
 
 
+YEARS=(
+    ("2020", "2020"),
+    ("2021", "2021"),
+    ("2022", "2022"),
+    ("2023", "2023"),
+    ("2025", "2025"),
+    
+)
+class certificates(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    profile = models.ForeignKey(AppUser, default=1, on_delete=models.CASCADE)
+    certificate_year = models.CharField(max_length=150,choices=YEARS)
+    workshop_name= models.CharField(max_length=150, blank=True)
+    certificates = models.URLField(blank=True)
+
+    def __str__(self):
+        return "{} {} {}".format(self.user, self.workshop_name, self.certificate_year)
+
 
 
 

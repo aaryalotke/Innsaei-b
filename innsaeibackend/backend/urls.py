@@ -6,12 +6,12 @@ from django.urls import path, include
 
 urlpatterns = [
 
-    path('',views.home),#1
-    path('users/login/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'),#2
-    path('users/profile/',views.getUserProfile),#3
-    path('users/updateprofile/',views.updateUserProfile),#4
-    path('users/verifyotp/', views.verifyOtp),#5
-    path('users/logout/', views.userLogout),#6 
+    path('',views.home), #1
+    path('users/login/', views.MyTokenObtainPairView.as_view(), name='token_obtain_pair'), #2
+    path('users/profile/',views.getUserProfile), #3
+    path('users/updateprofile/',views.updateUserProfile), #4
+    path('users/verifyotp/', views.verifyOtp), #5
+    path('users/logout/', views.userLogout), #6 
     path('users/ContactUs/',views.api_create_contact_view), ##7
     path('users/editorial/',views.editorialsList), #8
     path('users/Developers/',views.developersList), #9
@@ -28,6 +28,7 @@ urlpatterns = [
     path('users/Product/<int:pk>/', views.ComponentList.as_view()), #19
     path('users/Initiatives/',views.InitiativesList), #20
     path('users/DevelopersURL/',views.DevelopersURLmethod), #21
+    path('users/certificateList/',views.certificateList), #22
 
 
 ]
