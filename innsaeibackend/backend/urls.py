@@ -27,8 +27,7 @@ urlpatterns = [
     path('users/Product/', views.ComponentList.as_view()), #18
     path('users/Product/<int:pk>/', views.ComponentList.as_view()), #19
     path('users/Initiatives/',views.InitiativesList), #20
-    path('users/DevelopersURL/',views.DevelopersURLmethod), #20
-
+    path('users/DevelopersURL/',views.DevelopersURLmethod), #21
 
 
 ]

@@ -291,8 +291,7 @@ class RegisterUserNONMEMBERS(APIView):
     serializer_class = UserSerializerNONMEMBER
 
     def post(self, request, format=None):
-        serializer = self.serializer_class(data=request.data,
-                                           context={'request': request})
+        serializer = self.serializer_class(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)
