@@ -105,6 +105,7 @@ class events2(models.Model):
     poster1 =  models.URLField(blank=True)
     poster2 =  models.URLField(blank=True)
     poster3 =  models.URLField(blank=True)
+    order_number = models.IntegerField(default=0, blank=True)
     description = models.TextField()
     type = models.CharField(choices=TYPE, max_length=100)
     start_date = models.DateField()
