@@ -51,7 +51,7 @@ def getUserProfile(request):
     profile = AppUser.objects.get(user=user)
     if profile.isverified:
         serialized_profile = ProfileSerializer(profile,many = False, context={'request': request})
-        return Response({'status': 1, 'profile':serialized_profile.data, })
+        return Response({'status': 1,'member':1, 'profile':serialized_profile.data, })
     else:
         return Response({'status': 0, 'message':"User not verified. Please Verify account"})
 
@@ -104,7 +104,7 @@ def verifyOtp(request):
             print("Otp matched!")
             profile.isverified = True
             profile.save()
-            return Response({'status': 1, 'message':"User verified successfully"})
+            return Response({'status': 1, 'member':1, 'message':"User verified successfully"})
         else:
             return Response({'status': 0, 'message':"OTP didnt match. please try again"})
     except:
