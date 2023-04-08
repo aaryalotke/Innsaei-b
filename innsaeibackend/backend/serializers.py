@@ -17,6 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField(read_only=True)
+    profile_image = serializers.URLField(default="https://drive.google.com/uc?export=download&id=1-mYSwvSe_mlXsuRBLriygnnURC_NodEy")
 
     class Meta:
         model = AppUser

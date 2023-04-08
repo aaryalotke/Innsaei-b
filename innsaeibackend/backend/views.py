@@ -50,8 +50,8 @@ def getUserProfile(request):
     user = request.user
     profile = AppUser.objects.get(user=user)
     if profile.isverified:
-        serialized_profile = ProfileSerializer(profile,many = False)
-        return Response({'status': 1, 'profile':serialized_profile.data})
+        serialized_profile = ProfileSerializer(profile,many = False, context={'request': request})
+        return Response({'status': 1, 'profile':serialized_profile.data, })
     else:
         return Response({'status': 0, 'message':"User not verified. Please Verify account"})
 
@@ -376,15 +376,15 @@ class ComponentList(APIView):
         id = pk or request.query_params.get('id')
         user = request.user
         profile = AppUser.objects.get(user=user)
-        if profile.isMember==True:
-            if ( id ):
-                serializer = ComponentSerializer(self.get_object(id))
-                return Response({'status':1,'ComponentList':serializer.data})
-            else:
-                serializer = ComponentSerializer(self.get_queryset(), many=True)
-                return Response({'status':1,'ComponentList':serializer.data})    
-        else:  
-            return Response({'status':0,'ComponentList':"You are not an ISA MEMBER"})
+        
+        if ( id ):
+            serializer = ComponentSerializer(self.get_object(id))
+            return Response({'status':1,'ComponentList':serializer.data})
+        else:
+            serializer = ComponentSerializer(self.get_queryset(), many=True)
+            return Response({'status':1,'ComponentList':serializer.data})    
+        
+        return Response({'status':0,'ComponentList':"You are not an ISA MEMBER"})
 
 
 @api_view(['GET'])
