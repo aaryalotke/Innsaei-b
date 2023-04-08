@@ -88,7 +88,7 @@ COUNCIL = (
 
 class developers(models.Model):
     name = models.CharField(max_length=100)
-    image = models.URLField(null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, upload_to='developers')
     council = models.CharField(choices=COUNCIL, max_length=100)
     post = models.CharField(max_length=100)
     order_number = models.IntegerField(default=0, blank=True)
@@ -103,18 +103,18 @@ class developers(models.Model):
 
 class events2(models.Model):
     name = models.CharField(max_length=100)
-    poster1 =  models.URLField(blank=True)
-    poster2 =  models.URLField(blank=True)
-    poster3 =  models.URLField(blank=True)
+    poster1 =  models.ImageField(null=True, blank=True, upload_to='events')   #hardware
+    poster2 =  models.ImageField(null=True, blank=True, upload_to='events')   #software
+    poster3 =  models.ImageField(null=True, blank=True, upload_to='events')   #others
     order_number = models.IntegerField(default=0, blank=True)
     description = models.TextField()
     type = models.CharField(choices=TYPE, max_length=100)
     start_date = models.DateField()
     end_date = models.DateField()
-    gallary_pic1_link = models.URLField(blank=True)
-    gallary_pic2_link = models.URLField(blank=True)
-    gallary_pic3_link = models.URLField(blank=True)
-    gallary_pic4_link = models.URLField(blank=True)
+    gallary_pic1_link = models.ImageField(null=True, blank=True, upload_to='events')
+    gallary_pic2_link = models.ImageField(null=True, blank=True, upload_to='events')
+    gallary_pic3_link = models.ImageField(null=True, blank=True, upload_to='events')
+    gallary_pic4_link = models.ImageField(null=True, blank=True, upload_to='events')
     
     def __str__(self):
         return "{} {} {}".format(self.name, self.start_date, self.type)
@@ -122,7 +122,7 @@ class events2(models.Model):
 
 class councilMembers(models.Model):
     name = models.CharField(max_length=100)
-    photo = models.URLField(blank=True)
+    photo = models.ImageField(null=True, blank=True, upload_to='developers')
     council = models.CharField(choices=COUNCIL, max_length=100)
     post = models.CharField(max_length=100)
     order_number = models.IntegerField(default=0, blank=True)
@@ -147,7 +147,7 @@ class Remainder(models.Model):
 
 class UpcomingWorkshopmodels(models.Model):
     EventName = models.CharField(max_length=500, blank=True)
-    PosterImage = models.URLField(null=True, blank=True)
+    PosterImage =models.ImageField(null=True, blank=True, upload_to='UpcomingEvents')
     FormLink = models.URLField(blank=True)
     Description = models.TextField()
     DurationDate = models.CharField(max_length=100, blank=True)
@@ -170,7 +170,7 @@ class Initiatives(models.Model):
 
 class Component(models.Model):
     name = models.CharField(max_length=254, null=False, blank=False)
-    image = models.URLField(null=False, default="https://drive.google.com/uc?export=download&id=1BS738bM50KPliEbb7o30rDfDuvxCS_rL")
+    image = models.ImageField(null=True, blank=True, upload_to='Components')
     Small_Specs = models.CharField(max_length=254,null=False)
     Info = models.TextField(null=False)
     Is_available = models.BooleanField(default=True)

@@ -194,7 +194,7 @@ def developersList(request):
         profile = AppUser.objects.get(user=user)
         developer = developers.objects.all()
         print(developer)
-        serialized_links = DeveloperSerializer(developer, many = True)
+        serialized_links = DeveloperSerializer(developer, many = True,context={'request': request})
         return Response({'status': 1, 'link':serialized_links.data})
     except:
         detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
@@ -209,7 +209,7 @@ def councilsList(request):
         profile = AppUser.objects.get(user=user)
         council = councilMembers.objects.all()
         print(council)
-        serialized_links = Councilserializer(council, many = True)
+        serialized_links = Councilserializer(council, many = True, context={'request': request})
         return Response({'status': 1, 'link':serialized_links.data})
     except:
         detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
@@ -225,7 +225,7 @@ def getEvent_2(request):
     eventlist = events2.objects.all()
     print(eventlist)
     if profile.isverified:
-        serialized_events = EventSerializer_2(eventlist, many = True)
+        serialized_events = EventSerializer_2(eventlist, many = True, context={'request': request})
         return Response({'status': 1,'post':serialized_events.data})
     else:
         return Response({'status': 0, 'message':"User not verified. Please Verify account"})
@@ -336,7 +336,7 @@ def UpcomingEventsList(request):
         profile = AppUser.objects.get(user=user)
         upcomingws = UpcomingWorkshopmodels.objects.all()
         print(upcomingws)
-        serialized_links_upcomingws = UpcomingWorkshopmodelsSerializer(upcomingws, many = True)
+        serialized_links_upcomingws = UpcomingWorkshopmodelsSerializer(upcomingws, many = True, context={'request': request})
         return Response({'status': 1, 'link':serialized_links_upcomingws.data})
     except:
         detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
@@ -351,7 +351,7 @@ def InitiativesList(request):
         profile = AppUser.objects.get(user=user)
         initiative = Initiatives.objects.all()
         print(initiative)
-        serialized_links_intitiatives = InitiativeSerializer(initiative, many = True)
+        serialized_links_intitiatives = InitiativeSerializer(initiative, many = True, context={'request': request})
         return Response({'status': 1, 'link':serialized_links_intitiatives.data})
     except:
         detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
@@ -378,10 +378,10 @@ class ComponentList(APIView):
         profile = AppUser.objects.get(user=user)
         
         if ( id ):
-            serializer = ComponentSerializer(self.get_object(id))
+            serializer = ComponentSerializer(self.get_object(id), context={'request': request})
             return Response({'status':1,'ComponentList':serializer.data})
         else:
-            serializer = ComponentSerializer(self.get_queryset(), many=True)
+            serializer = ComponentSerializer(self.get_queryset(), many=True, context={'request': request})
             return Response({'status':1,'ComponentList':serializer.data})    
         
         return Response({'status':0,'ComponentList':"You are not an ISA MEMBER"})
