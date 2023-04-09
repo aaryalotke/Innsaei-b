@@ -298,8 +298,10 @@ class RegisterUserNONMEMBERS(APIView):
                                            context={'request': request})
         if serializer.is_valid():
             serializer.save()
-            return Response(status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_202_ACCEPTED)
+            detail = { 'status': 1, 'message' : 'Non-Member Account Has Been Created', 'member':0}
+            return Response(detail, status=status.HTTP_201_CREATED)
+        details = { 'status': 0, 'message' : 'Email Already Exists', 'member':0}
+        return Response(details, serializer.errors)
 
 
 
