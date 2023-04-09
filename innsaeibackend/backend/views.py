@@ -224,7 +224,7 @@ def getEvent_2(request):
     profile = AppUser.objects.get(user=user)
     eventlist = events2.objects.all()
     print(eventlist)
-    if profile.isverified:
+    if (profile.isverified or not(profile.isverified) ):
         serialized_events = EventSerializer_2(eventlist, many = True, context={'request': request})
         return Response({'status': 1,'post':serialized_events.data})
     else:
