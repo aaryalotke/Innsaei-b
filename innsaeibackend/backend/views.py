@@ -53,7 +53,7 @@ def getUserProfile(request):
         serialized_profile = ProfileSerializer(profile,many = False, context={'request': request})
         return Response({'status': 1,'member':1, 'profile':serialized_profile.data, })
     else:
-        return Response({'status': 0, 'message':"User not verified. Please Verify account"})
+        return Response({'status': 0,'member':1, 'message':"User not verified. Please Verify account"})
 
 
 @api_view(['PUT'])
@@ -83,11 +83,11 @@ def updateUserProfile(request):
                 profile.profile_image = data['profile_image']
             print(profile)
             profile.save()
-            return Response({'status': 1, 'message':"User updated successfully",'profile':serialized_profile.data})
+            return Response({'status': 1,'member':1, 'message':"User updated successfully",'profile':serialized_profile.data})
         else:
-            return Response({'status': 0, 'message':"User not verified. Please Verify account"})
+            return Response({'status': 0,'member':1, 'message':"User not verified. Please Verify account"})
     except:
-        detail = { 'status': 0, 'message' : 'Oof something went wrong while updating profile!' }
+        detail = { 'status': 0,'member':1, 'message' : 'Oof something went wrong while updating profile!' }
         return Response(detail, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -106,7 +106,7 @@ def verifyOtp(request):
             profile.save()
             return Response({'status': 1, 'member':1, 'message':"User verified successfully"})
         else:
-            return Response({'status': 0, 'message':"OTP didnt match. please try again"})
+            return Response({'status': 0,'member':1, 'message':"OTP didnt match. please try again"})
     except:
         detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
         return Response(detail, status=status.HTTP_400_BAD_REQUEST)
