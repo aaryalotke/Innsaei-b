@@ -104,18 +104,18 @@ class developers(models.Model):
 
 class events2(models.Model):
     name = models.CharField(max_length=100)
-    poster1 =  models.ImageField(null=True, blank=True, upload_to='events')   #hardware
-    poster2 =  models.ImageField(null=True, blank=True, upload_to='events')   #software
-    poster3 =  models.ImageField(null=True, blank=True, upload_to='events')   #others
+    poster1 =  models.ImageField(null=True, blank=True, upload_to='events/eventPosters')   #hardware
+    poster2 =  models.ImageField(null=True, blank=True, upload_to='events/eventPosters')   #software
+    poster3 =  models.ImageField(null=True, blank=True, upload_to='events/eventPosters')   #others
     order_number = models.IntegerField(default=0, blank=True)
     description = models.TextField()
     type = models.CharField(choices=TYPE, max_length=100)
     start_date = models.DateField()
     end_date = models.DateField()
-    gallary_pic1_link = models.ImageField(null=True, blank=True, upload_to='events')
-    gallary_pic2_link = models.ImageField(null=True, blank=True, upload_to='events')
-    gallary_pic3_link = models.ImageField(null=True, blank=True, upload_to='events')
-    gallary_pic4_link = models.ImageField(null=True, blank=True, upload_to='events')
+    gallary_pic1_link = models.ImageField(null=True, blank=True, upload_to='events/eventsGallary')
+    gallary_pic2_link = models.ImageField(null=True, blank=True, upload_to='events/eventsGallary')
+    gallary_pic3_link = models.ImageField(null=True, blank=True, upload_to='events/eventsGallary')
+    gallary_pic4_link = models.ImageField(null=True, blank=True, upload_to='events/eventsGallary')
     
     def __str__(self):
         return "{} {} {}".format(self.name, self.start_date, self.type)
