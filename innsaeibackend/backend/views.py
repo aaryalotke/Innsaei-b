@@ -233,7 +233,6 @@ def getEvent_2(request):
 
 
 
-
 class MyTokenObtainPairSerializerNONMEMBERS(TokenObtainPairSerializer):
     def validate(self, attrs):
         data =super().validate(attrs)
@@ -283,7 +282,11 @@ def verifyOtpNONMEMBERS(request):
         return Response(detail, status=status.HTTP_400_BAD_REQUEST)
 
 
+
+
 from rest_framework.views import APIView 
+
+
 class RegisterUserNONMEMBERS(APIView):
     '''
     Register new user
@@ -291,7 +294,8 @@ class RegisterUserNONMEMBERS(APIView):
     serializer_class = UserSerializerNONMEMBER
 
     def post(self, request, format=None):
-        serializer = self.serializer_class(data=request.data, context={'request': request})
+        serializer = self.serializer_class(data=request.data,
+                                           context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(status=status.HTTP_201_CREATED)

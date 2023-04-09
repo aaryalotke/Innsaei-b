@@ -32,6 +32,6 @@ admin.site.register(events2)
 admin.site.register(UpcomingWorkshopmodels)
 admin.site.register(Component)
 admin.site.register(Initiatives)
-admin.site.register(DevelopersURL)
+#admin.site.register(DevelopersURL)
 admin.site.register(certificates)
 

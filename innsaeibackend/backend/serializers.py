@@ -84,35 +84,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth import password_validation
 from django.contrib.auth.password_validation import validate_password
 
-class UserSerializerNONMEMBER(serializers.ModelSerializer):
-    password = serializers.HiddenField(default='innsaei')
-    class Meta:
-        model = User
-        extra_kwargs = {'email': {'required': True, 'allow_blank': False},
-                        'first_name': {'required': True, 'allow_blank': False},
-                        'last_name': {'required': True, 'allow_blank': False},
-                        }
-        fields = ['username', 'password', 'first_name', 'last_name', 'email']
-
-
-    def validate(self, data):
-        password = data.get('password')
-        errors = dict()
-        
-
-        #try:
-        #    # validate the password and catch the exception
-        #    password_validation.validate_password(password=password, user=User)
-
-        ## the exception raised here is different than serializers.ValidationError
-        #except exceptions.ValidationError as e:
-        #    errors['password'] = list(e.messages)
-
-        if errors:
-            raise serializers.ValidationError(errors)
-
-        return super(UserSerializerNONMEMBER, self).validate(data)
-
 
 class UpcomingWorkshopmodelsSerializer(serializers.ModelSerializer):
     class Meta:
@@ -161,3 +132,58 @@ class Councilserializerurl(serializers.ModelSerializer):
     class Meta:
         model = DevelopersURL
         fields = '__all__'
+
+
+
+
+
+#######################################################################reg
+from django.core import exceptions
+from django.contrib.auth.models import User
+from django.contrib.auth import password_validation
+from django.contrib.auth.password_validation import validate_password
+
+
+
+
+class UserSerializerNONMEMBER(serializers.ModelSerializer):
+    password = serializers.HiddenField(default='innsaei')
+    class Meta:
+        model = User
+        extra_kwargs = {'email': {'required': True, 'allow_blank': False},
+                        'first_name': {'required': True, 'allow_blank': False},
+                        'last_name': {'required': True, 'allow_blank': False},
+                        }
+        fields = ['username', 'password', 'first_name', 'last_name', 'email']
+
+
+    def validate(self, data):
+        password = data.get('password')
+        errors = dict()
+        
+
+        #try:
+        #    # validate the password and catch the exception
+        #    password_validation.validate_password(password=password, user=User)
+
+        ## the exception raised here is different than serializers.ValidationError
+        #except exceptions.ValidationError as e:
+        #    errors['password'] = list(e.messages)
+
+        if errors:
+            raise serializers.ValidationError(errors)
+
+        return super(UserSerializerNONMEMBER, self).validate(data)
+
+
+    def create(self, validated_data):
+        user = super().create(validated_data)
+        user.set_password(validated_data['password'])
+
+        user.save()
+        return user
+
+
+
+
+#################################regend

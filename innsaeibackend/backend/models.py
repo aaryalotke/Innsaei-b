@@ -48,7 +48,7 @@ class AppUserNONMEMBER(models.Model):
     github = models.CharField(max_length=100,default='')
     linkedin = models.CharField(max_length=100,default='')
     isverified = models.BooleanField(default=False)
-    phone_number=models.CharField(null=True,max_length=13,blank=True,unique=True)
+    phone_number=PhoneNumberField(null=True,blank=True,unique=True)
     isMember = models.BooleanField(default=False)
 
     def __str__(self):
@@ -57,8 +57,9 @@ class AppUserNONMEMBER(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        profileNONMEMBER = AppUserNONMEMBER.objects.create(user=instance, isMember=False)
+        profileNONMEMBER = AppUserNONMEMBER.objects.create(user=instance, isMember=False, github='www.github.com')
         profileNONMEMBER.save()
+
 
 
 

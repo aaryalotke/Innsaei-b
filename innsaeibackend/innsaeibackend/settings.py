@@ -193,6 +193,6 @@ EMAIL_PORT = 587
 #EMAIL_HOST_USER = 'alumnihub.isavesit@gmail.com'
 #EMAIL_HOST_PASSWORD = 'wfnptoxahxktckvg'
 EMAIL_HOST_USER = 'app.isavesit@gmail.com'
-EMAIL_HOST_PASSWORD = 'yrkzlzikaopyzqbz'
+EMAIL_HOST_PASSWORD = 'icfwezrtwlranahe'
 
 CORS_ALLOW_ALL_ORIGINS = True
