@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models import fields
 from rest_framework import serializers
 from email import message
-from .models import AppUser, Component, DevelopersURL, Initiatives, Remainder, UpcomingWorkshopmodels, certificates, contactus, councilMembers, developers, editorials,  events2
+from .models import AppUser, AppUserNONMEMBER, Component, DevelopersURL, Initiatives, Remainder, UpcomingWorkshopmodels, certificates, contactus, councilMembers, developers, editorials,  events2
 
 
 
@@ -12,6 +12,21 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username', 'email']
+
+
+
+class ProfileSerializerNONMEMBER(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField(read_only=True)
+    profile_image = serializers.URLField(default="https://drive.google.com/uc?export=download&id=1-mYSwvSe_mlXsuRBLriygnnURC_NodEy")
+
+    class Meta:
+        model = AppUserNONMEMBER
+        fields = ['user','profile_image','isMember']
+
+    def get_user(self, obj):
+        user = obj.user
+        serializer = UserSerializerNONMEMBER(user, many=False)
+        return serializer.data
 
 
 

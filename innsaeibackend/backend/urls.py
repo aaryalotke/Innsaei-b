@@ -29,5 +29,6 @@ urlpatterns = [
     path('users/Initiatives/',views.InitiativesList), #20
     #path('users/DevelopersURL/',views.DevelopersURLmethod), #21
     path('users/certificateList/',views.certificateList), #22
+    path('users/profileNONMEMBERS/', views.getUserProfileNONMEMBER), #23
 
 ]

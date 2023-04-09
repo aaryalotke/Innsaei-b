@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .serializers import CertificateSerializer, ComponentSerializer, ContactSerailizer, Councilserializer, Councilserializerurl, DeveloperSerializer, EditorialSerializer, EventSerializer_2, InitiativeSerializer, RemainderSerializer, UpcomingWorkshopmodelsSerializer,  UserSerializer, ProfileSerializer, UserSerializerNONMEMBER
+from .serializers import CertificateSerializer, ComponentSerializer, ContactSerailizer, Councilserializer, Councilserializerurl, DeveloperSerializer, EditorialSerializer, EventSerializer_2, InitiativeSerializer, ProfileSerializerNONMEMBER, RemainderSerializer, UpcomingWorkshopmodelsSerializer,  UserSerializer, ProfileSerializer, UserSerializerNONMEMBER
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -247,7 +247,7 @@ class MyTokenObtainPairSerializerNONMEMBERS(TokenObtainPairSerializer):
         otp_generated = random.randint(1000,9999)
         profileNONMEMBER = AppUserNONMEMBER.objects.get(user=self.user)
         profileNONMEMBER.otp=otp_generated
-        profileNONMEMBER.isMember=True
+        profileNONMEMBER.isMember=False
         profileNONMEMBER.save()
 
         #absurl = 'http://127.0.0.1:8000/?token='+str(token)
@@ -274,12 +274,25 @@ def verifyOtpNONMEMBERS(request):
             print("Otp matched!")
             profileNONMEMBER.isverified = True
             profileNONMEMBER.save()
-            return Response({'status': 1, 'message':"User verified successfully"})
+            return Response({'status': 1,'member':0, 'message':"User verified successfully"})
         else:
-            return Response({'status': 0, 'message':"OTP didnt match. please try again"})
+            return Response({'status': 0,'member':0, 'message':"OTP didnt match. please try again"})
     except:
-        detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
+        detail = { 'status': 0,'member':0, 'message' : 'Oof something went wrong!' }
         return Response(detail, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getUserProfileNONMEMBER(request):
+    user = request.user
+    profileNONMEMBER = AppUserNONMEMBER.objects.get(user=user)
+    if profileNONMEMBER.isverified:
+        serialized_profileNONMEMBER = ProfileSerializerNONMEMBER(profileNONMEMBER,many = False, context={'request': request})
+        return Response({'status': 1,'member':0, 'profile':serialized_profileNONMEMBER.data, })
+    else:
+        return Response({'status': 0, 'member':0, 'message':"User not verified. Please Verify account"})
 
 
 
@@ -321,7 +334,6 @@ def get_phoneNONMEMBERS(request):
     except:
         detail = { 'status':0, 'post': "phone number not saved"}
         return Response(detail, status=status.HTTP_400_BAD_REQUEST)
-
 
 @api_view(['GET',])
 def getCalender(request):
