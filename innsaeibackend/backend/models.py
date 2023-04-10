@@ -48,7 +48,7 @@ class AppUserNONMEMBER(models.Model):
     github = models.CharField(max_length=100,default='')
     linkedin = models.CharField(max_length=100,default='')
     isverified = models.BooleanField(default=False)
-    phone_number=PhoneNumberField(null=True,blank=True,unique=True)
+    phone_number=PhoneNumberField(null=True,blank=True, default="9999999990")
     isMember = models.BooleanField(default=False)
 
     def __str__(self):
