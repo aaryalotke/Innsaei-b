@@ -36,7 +36,7 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = AppUser
-        fields = ['user', 'role', 'github', 'linkedin', 'profile_image','phone_number','isMember']
+        fields = ['user', 'role', 'profile_image','phone_number','isMember']
 
     def get_user(self, obj):
         user = obj.user
