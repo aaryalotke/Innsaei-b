@@ -16,7 +16,7 @@ class AppUser(models.Model):
     linkedin = models.URLField(max_length=100,default='')
     isverified = models.BooleanField(default=False)
     profile_image = models.URLField(default="https://drive.google.com/uc?export=download&id=1-mYSwvSe_mlXsuRBLriygnnURC_NodEy")
-    phone_number=models.CharField(null=True,max_length=13,blank=True,unique=True)
+    phone_number=models.CharField(null=True,max_length=13,blank=True, default="9999999990")
     isMember = models.BooleanField(default=True)
     #models.ImageField(null=True, blank=True, upload_to="profile_image/") 
 
