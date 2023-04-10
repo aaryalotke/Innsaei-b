@@ -209,6 +209,7 @@ class certificates(models.Model):
     certificate_year = models.CharField(max_length=150,choices=YEARS)
     workshop_name= models.CharField(max_length=150, blank=True)
     certificates = models.ImageField(null=True, blank=True, upload_to='certificates')
+    link = models.URLField(null=True, blank=True, default="https://drive.google.com/uc?export=download&id=16L8AkuCuh5jTrLvZsIFscvGls8Yo_VEr")
 
     def __str__(self):
         return "{} {} {}".format(self.user, self.workshop_name, self.certificate_year)
