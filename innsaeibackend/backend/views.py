@@ -51,9 +51,9 @@ def getUserProfile(request):
     profile = AppUser.objects.get(user=user)
     if profile.isverified:
         serialized_profile = ProfileSerializer(profile,many = False, context={'request': request})
-        return Response({'status': 1,'member':1, 'profile':serialized_profile.data, })
+        return Response({'status': 1, 'profile':serialized_profile.data, })
     else:
-        return Response({'status': 0,'member':1, 'message':"User not verified. Please Verify account"})
+        return Response({'status': 0, 'message':"User not verified. Please Verify account"})
 
 
 @api_view(['PUT'])
