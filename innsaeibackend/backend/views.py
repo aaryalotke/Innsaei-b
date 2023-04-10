@@ -429,7 +429,7 @@ def certificateList(request):
         profile = AppUser.objects.get(user=user)
         certi = certificates.objects.filter(user=user)
         print(certi)
-        serialized_links = CertificateSerializer(certi, many = True)
+        serialized_links = CertificateSerializer(certi, many = True, context={'request': request})
         return Response({'status': 1, 'link':serialized_links.data})
     except:
         detail = { 'status': 0, 'message' : 'Oof something went wrong!' }

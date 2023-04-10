@@ -148,7 +148,7 @@ class Remainder(models.Model):
 
 class UpcomingWorkshopmodels(models.Model):
     EventName = models.CharField(max_length=500, blank=True)
-    PosterImage =models.ImageField(null=True, blank=True, upload_to='UpcomingEvents')
+    PosterImage = models.ImageField(null=True, blank=True, upload_to='UpcomingEvents')
     FormLink = models.URLField(blank=True)
     Description = models.TextField()
     DurationDate = models.CharField(max_length=100, blank=True)
@@ -208,7 +208,7 @@ class certificates(models.Model):
     profile = models.ForeignKey(AppUser, default=1, on_delete=models.CASCADE)
     certificate_year = models.CharField(max_length=150,choices=YEARS)
     workshop_name= models.CharField(max_length=150, blank=True)
-    certificates = models.URLField(blank=True)
+    certificates = models.ImageField(null=True, blank=True, upload_to='certificates')
 
     def __str__(self):
         return "{} {} {}".format(self.user, self.workshop_name, self.certificate_year)
