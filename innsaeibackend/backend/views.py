@@ -176,13 +176,29 @@ def editorialsList(request):
     try:
         user = request.user
         profile = AppUser.objects.get(user=user)
+        #profileNONMEMBER = AppUserNONMEMBER.objects.get(user=user)
         editorial = editorials.objects.all()
         print(editorial)
-        serialized_links = EditorialSerializer(editorial, many = True)
-        return Response({'status': 1, 'link':serialized_links.data})
+        serialized_links_editorial = EditorialSerializer(editorial, many = True)
+        return Response({'status': 1, 'link':serialized_links_editorial.data})
     except:
         detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
         return Response(detail, status=status.HTTP_400_BAD_REQUEST)
+
+
+    try:
+        user = request.user
+        profile = AppUser.objects.get(user=user)
+        upcomingws = UpcomingWorkshopmodels.objects.all()
+        print(upcomingws)
+        serialized_links_upcomingws = UpcomingWorkshopmodelsSerializer(upcomingws, many = True, context={'request': request})
+        return Response({'status': 1, 'link':serialized_links_upcomingws.data})
+    except:
+        detail = { 'status': 0, 'message' : 'Oof something went wrong!' }
+        return Response(detail, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 
 @api_view(['GET'])
